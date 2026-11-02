@@ -1,3 +1,8 @@
 cd ~/Project-with-Eso/shetty-lunch-home-external-secrets/shetty-lunch-home-gitops
 sed -i '/^if grep -rq/,/^fi$/d' scripts/bootstrap.sh
 sed -n '1,20p' scripts/bootstrap.sh
+
+
+sed -i '/rollout status statefulset\/vault/d' scripts/bootstrap.sh
+grep -n "vault" scripts/bootstrap.sh | head
+./scripts/bootstrap.sh
