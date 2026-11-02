@@ -6,3 +6,12 @@ sed -n '1,20p' scripts/bootstrap.sh
 sed -i '/rollout status statefulset\/vault/d' scripts/bootstrap.sh
 grep -n "vault" scripts/bootstrap.sh | head
 ./scripts/bootstrap.sh
+
+
+kubectl get externalsecret -A
+kubectl -n slh-dev get secret slh-secrets
+
+kubectl -n argocd get applications
+kubectl -n slh-dev get pods
+
+kubectl -n argocd port-forward --address 0.0.0.0 svc/argocd-server 8443:443
