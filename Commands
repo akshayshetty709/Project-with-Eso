@@ -15,3 +15,4 @@ kubectl -n argocd get applications
 kubectl -n slh-dev get pods
 
 kubectl -n argocd port-forward --address 0.0.0.0 svc/argocd-server 8443:443
+echo "13.201.192.164  dev.shettylunchhome.local staging.shettylunchhome.local prod.shettylunchhome.local" | sudo tee -a /etc/hosts
