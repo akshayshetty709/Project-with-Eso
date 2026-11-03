@@ -25,3 +25,14 @@ kubectl exec -n vault vault-0 -- sh -c 'VAULT_TOKEN=<your-token> vault kv list s
 kubectl exec -n vault vault-0 -- sh -c 'VAULT_TOKEN=<your-token> vault kv get secret/<key-from-above>'
 
 kubectl -n slh-dev annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
+
+kubectl -n slh-dev get externalsecret slh-secrets -o yaml | grep -B2 -A6 dataFrom
+
+kubectl exec -n vault vault-0 -- sh -c 'VAULT_TOKEN=<token> vault kv list secret/'
+
+kubectl exec -n vault vault-0 -- sh -c 'VAULT_TOKEN=<token> vault kv list secret/'
+
+kubectl exec -n vault vault-0 -- sh -c 'VAULT_TOKEN=<token> vault kv put secret/<key> DB_PASSWORD=... JWT_SECRET=...'
+
+kubectl -n slh-dev annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
+kubectl -n slh-staging annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
