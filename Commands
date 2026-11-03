@@ -36,3 +36,5 @@ kubectl exec -n vault vault-0 -- sh -c 'VAULT_TOKEN=<token> vault kv put secret/
 
 kubectl -n slh-dev annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
 kubectl -n slh-staging annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
+
+TOKEN=$(kubectl -n external-secrets get secret vault-token -o jsonpath='{.data.token}' | base64 -d)
