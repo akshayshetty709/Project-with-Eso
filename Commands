@@ -16,3 +16,12 @@ kubectl -n slh-dev get pods
 
 kubectl -n argocd port-forward --address 0.0.0.0 svc/argocd-server 8443:443
 echo "13.201.192.164  dev.shettylunchhome.local staging.shettylunchhome.local prod.shettylunchhome.local" | sudo tee -a /etc/hosts
+
+kubectl logs -n external-secrets deploy/external-secrets | grep -i slh | tail -5
+
+kubectl -n slh-dev get externalsecret slh-secrets -o yaml | grep -A15 "data:"
+
+kubectl exec -n vault vault-0 -- sh -c 'VAULT_TOKEN=<your-token> vault kv list secret/'
+kubectl exec -n vault vault-0 -- sh -c 'VAULT_TOKEN=<your-token> vault kv get secret/<key-from-above>'
+
+kubectl -n slh-dev annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
