@@ -47,3 +47,20 @@ kubectl -n slh-dev get secret slh-secrets -o json | jq -r '.data | to_entries | 
 
 kubectl -n slh-dev annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
 kubectl get externalsecret -A
+
+
+
+kubectl -n slh-dev get secret slh-secrets -o json \
+ | jq -r '.data | to_entries[] | "\(.key)=\(.value|@base64d)"' \
+ | xargs -d '\n' kubectl exec -n vault vault-0 -- env VAULT_TOKEN=$TOKEN vault kv put secret/slh/dev
+
+kubectl exec -n vault vault-0 -- env VAULT_TOKEN=$TOKEN vault kv get -format=json secret/slh/dev | jq '.data.data | keys'
+
+
+kubectl -n slh-staging get secret slh-secrets -o json \
+ | jq -r '.data | to_entries[] | "\(.key)=\(.value|@base64d)"' \
+ | xargs -d '\n' kubectl exec -n vault vault-0 -- env VAULT_TOKEN=$TOKEN vault kv put secret/slh/staging
+
+kubectl -n slh-dev annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
+kubectl -n slh-staging annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
+kubectl get externalsecret -A
