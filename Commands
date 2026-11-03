@@ -38,3 +38,4 @@ kubectl -n slh-dev annotate externalsecret slh-secrets force-sync=$(date +%s) --
 kubectl -n slh-staging annotate externalsecret slh-secrets force-sync=$(date +%s) --overwrite
 
 TOKEN=$(kubectl -n external-secrets get secret vault-token -o jsonpath='{.data.token}' | base64 -d)
+kubectl -n slh-dev get deploy -o yaml | grep -A3 secretKeyRef | grep -E "name:|key:" | sort -u
